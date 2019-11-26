@@ -1,4 +1,6 @@
 defmodule AOC.Day1 do
+  import AOC.Helper
+
   require Logger
 
   def go do
