@@ -10,11 +10,11 @@ defmodule Advent.Day14 do
     load_input("14")
   end
 
-  defp part1(seed) do
+  def part1(seed) do
     debug(seed)
   end
 
-  defp part2(seed) do
+  def part2(seed) do
     debug(seed)
   end
 end

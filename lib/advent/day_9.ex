@@ -10,11 +10,11 @@ defmodule Advent.Day9 do
     load_input("9")
   end
 
-  defp part1(seed) do
+  def part1(seed) do
     debug(seed)
   end
 
-  defp part2(seed) do
+  def part2(seed) do
     debug(seed)
   end
 end
