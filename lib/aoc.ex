@@ -1,2 +1,2 @@
-defmodule Aoc do
+defmodule Advent do
 end

@@ -1,6 +1,6 @@
-defmodule AocTest do
+defmodule AdventTest do
   use ExUnit.Case
-  doctest Aoc
+  doctest Advent
 
   test "truthy" do
     assert true
