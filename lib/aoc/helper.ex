@@ -8,4 +8,6 @@ defmodule AOC.Helper do
       error -> error
     end
   end
+
+  def debug(value, opts \\ []), do: IO.inspect(value, opts)
 end

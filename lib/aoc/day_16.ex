@@ -1,9 +1,13 @@
-defmodule AOC.Day1 do
+defmodule AOC.Day16 do
   import AOC.Helper
 
   def go do
     part1 "hello"
     part2 "world"
+  end
+
+  defp read_input do
+    load_input("16")
   end
 
   defp part1(seed) do
