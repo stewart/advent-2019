@@ -26,13 +26,13 @@ defmodule Advent.Day1 do
     trunc(mass / 3) - 2
   end
 
-  def correct_fuel_for_mass(mass, acc \\ 0) do
+  def correct_fuel_for_mass(mass) do
     case fuel_for_mass(mass) do
       fuel when fuel > 0 ->
-        correct_fuel_for_mass(fuel, acc + fuel)
+        fuel + correct_fuel_for_mass(fuel)
 
       _ ->
-        acc
+        0
     end
   end
 end
