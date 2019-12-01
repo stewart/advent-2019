@@ -11,4 +11,11 @@ defmodule Advent.Helper do
   end
 
   def debug(value, opts \\ []), do: IO.inspect(value, opts)
+
+  # wrapper over Task.async_stream/2 that assumes things always go perfectly
+  def asynchronously(enumerable, fun, opts \\ []) do
+    enumerable
+    |> Task.async_stream(fun, opts)
+    |> Stream.map(fn {:ok, value} -> value end)
+  end
 end

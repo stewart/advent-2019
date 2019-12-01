@@ -7,25 +7,19 @@ defmodule Advent.Day1 do
          |> String.split("\n")
          |> Enum.map(&String.to_integer/1)
 
+  def input, do: @input
+
   def go do
-    input = @input
-    part1(input)
-    part2(input)
+    part1() |> debug(label: "Part 1")
+    part2() |> debug(label: "Part 2")
   end
 
-  def part1(input) do
-    input
-    |> Stream.map(&fuel_for_mass/1)
-    |> Enum.sum()
-    |> debug(label: "Part1")
+  def part1 do
+    input() |> Stream.map(&fuel_for_mass/1) |> Enum.sum()
   end
 
-  def part2(input) do
-    input
-    |> Task.async_stream(&correct_fuel_for_mass/1)
-    |> Enum.map(fn {:ok, value} -> value end)
-    |> Enum.sum()
-    |> debug(label: "Part2")
+  def part2 do
+    input() |> Stream.map(&correct_fuel_for_mass/1) |> Enum.sum()
   end
 
   def fuel_for_mass(mass) do
