@@ -11,22 +11,36 @@ defmodule Advent.Day2 do
 
   def go do
     part1() |> debug(label: "Part1")
-    # part2() |> debug(label: "Part2")
+    part2() |> debug(label: "Part2")
   end
 
   def part1 do
-    input()
-    |> List.replace_at(1, 12)
-    |> List.replace_at(2, 2)
-    |> run_program()
-    |> hd()
+    run_with_input(input(), 12, 2)
   end
 
   def part2 do
-    input()
+    program = input()
+    max = length(program) - 1
+
+    inputs = for x <- 0..max, y <- 0..max, do: {x, y}
+
+    {x, y} =
+      Enum.find(inputs, fn {x, y} ->
+        run_with_input(program, x, y) == 19_690_720
+      end)
+
+    100 * x + y
   end
 
   ## Utils
+
+  def run_with_input(program, one, two) do
+    program
+    |> List.replace_at(1, one)
+    |> List.replace_at(2, two)
+    |> run_program()
+    |> hd()
+  end
 
   def run_program(program, instruction_ptr \\ 0) do
     case Enum.drop(program, instruction_ptr) do
