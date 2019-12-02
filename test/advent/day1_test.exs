@@ -4,11 +4,11 @@ defmodule Advent.Day1Test do
   alias Advent.Day1
 
   test "part1/0" do
-    assert Day1.part1() == 3454942
+    assert Day1.part1() == 3_454_942
   end
 
   test "part2/0" do
-    assert Day1.part2() == 5179544
+    assert Day1.part2() == 5_179_544
   end
 
   test "fuel_for_mass/1" do
