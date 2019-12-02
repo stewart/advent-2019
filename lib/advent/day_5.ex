@@ -1,20 +1,23 @@
 defmodule Advent.Day5 do
   import Advent.Helper
 
+  @input "day5"
+  # |> load_input()
+  # |> String.trim()
+  # |> String.split("\n")
+
+  def input, do: @input
+
   def go do
-    part1("hello")
-    part2("world")
+    part1() |> debug(label: "Part1")
+    # part2() |> debug(label: "Part2")
   end
 
-  defp read_input do
-    load_input("5")
+  def part1 do
+    input()
   end
 
-  def part1(seed) do
-    debug(seed)
-  end
-
-  def part2(seed) do
-    debug(seed)
+  def part2 do
+    input()
   end
 end
