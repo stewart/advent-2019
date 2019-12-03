@@ -21,25 +21,23 @@ defmodule Advent.Day3 do
   end
 
   def part1 do
-    input() |> closest_intersection_distance()
+    [one, two] = input()
+    closest_intersection_distance(one, two)
   end
 
+  # TODO implement me!
   def part2 do
-    input()
+    [one, two] = input()
   end
 
-  def parse_instruction("U" <> n), do: {:up, String.to_integer(n)}
-  def parse_instruction("D" <> n), do: {:down, String.to_integer(n)}
-  def parse_instruction("L" <> n), do: {:left, String.to_integer(n)}
-  def parse_instruction("R" <> n), do: {:right, String.to_integer(n)}
-
-  def manhattan_distance({x1, y1}, {x2, y2}), do: abs(x1 - x2) + abs(y1 - y2)
-
-  def closest_intersection_distance(wires) do
-    wires
+  def closest_intersection_distance(one, two) do
+    [one, two]
     |> intersections()
     |> Enum.min_by(& manhattan_distance({0, 0}, &1))
     |> manhattan_distance({0, 0})
+  end
+
+  def closest_intersection_steps(one, two) do
   end
 
   def intersections(wires) do
@@ -78,4 +76,11 @@ defmodule Advent.Day3 do
 
     MapSet.delete(visited_locations, {0, 0})
   end
+
+  def parse_instruction("U" <> n), do: {:up, String.to_integer(n)}
+  def parse_instruction("D" <> n), do: {:down, String.to_integer(n)}
+  def parse_instruction("L" <> n), do: {:left, String.to_integer(n)}
+  def parse_instruction("R" <> n), do: {:right, String.to_integer(n)}
+
+  defp manhattan_distance({x1, y1}, {x2, y2}), do: abs(x1 - x2) + abs(y1 - y2)
 end
