@@ -17,70 +17,71 @@ defmodule Advent.Day3 do
 
   def go do
     part1() |> debug(label: "Part1")
-    # part2() |> debug(label: "Part2")
+    part2() |> debug(label: "Part2")
   end
 
   def part1 do
-    [one, two] = input()
-    closest_intersection_distance(one, two)
+    input() |> min_manhattan_distance()
   end
 
-  # TODO implement me!
   def part2 do
-    [one, two] = input()
+    input() |> min_drawn_distance()
   end
 
-  def closest_intersection_distance(one, two) do
-    [one, two]
-    |> intersections()
-    |> Enum.min_by(& manhattan_distance({0, 0}, &1))
-    |> manhattan_distance({0, 0})
+  def min_manhattan_distance(wires) do
+    wires
+    |> run_wires()
+    |> Enum.map(&Map.keys/1)
+    |> Enum.map(&MapSet.new/1)
+    |> Enum.reduce(&MapSet.intersection/2)
+    |> Enum.map(&manhattan_distance/1)
+    |> Enum.min()
   end
 
-  def closest_intersection_steps(one, two) do
+  def min_drawn_distance(wires) do
+    wires
+    |> run_wires()
+    |> Enum.reduce(&intersection_distance/2)
+    |> Enum.min()
   end
 
-  def intersections(wires) do
-    [one, two] = for wire <- wires, do: draw_path(wire)
-    crossings = MapSet.intersection(one, two)
+  # the sum of distance each wire needs to run to get to the intersection
+  def intersection_distance(a, b) do
+    ak = a |> Map.keys() |> MapSet.new()
+    bk = b |> Map.keys() |> MapSet.new()
+
+    Enum.map(MapSet.intersection(ak, bk), fn coords ->
+      Map.get(a, coords) + Map.get(b, coords)
+    end)
   end
 
-  defp draw_path(instructions) do
-    update = fn
-      ({x, y}, {:up, amount}) ->
-        visits = for n <- 0..amount, do: {x + n, y}
-        final = {x + amount, y}
-        {final, visits}
-
-      ({x, y}, {:down, amount}) ->
-        visits = for n <- 0..amount, do: {x - n, y}
-        final = {x - amount, y}
-        {final, visits}
-
-      ({x, y}, {:left, amount}) ->
-        visits = for n <- 0..amount, do: {x, y - n}
-        final = {x, y - amount}
-        {final, visits}
-
-      ({x, y}, {:right, amount}) ->
-        visits = for n <- 0..amount, do: {x, y + n}
-        final = {x, y + amount}
-        {final, visits}
+  def run_wires(wires) do
+    for wire <- wires do
+      {_, _, path} = Enum.reduce(wire, {{0, 0}, 0, %{}}, &step/2)
+      path
     end
+  end
 
-    {_, visited_locations} =
-      Enum.reduce(instructions, {{0, 0}, MapSet.new()}, fn instruction, {position, visited} ->
-        {position, visits} = update.(position, instruction)
-        {position, MapSet.union(visited, MapSet.new(visits))}
+  defp step({dir, amount}, {position, distance, path}) do
+    new_position = move(position, dir, amount)
+
+    new_path =
+      Enum.reduce(1..amount, path, fn n, acc ->
+        Map.put_new(acc, move(position, dir, n), distance + n)
       end)
 
-    MapSet.delete(visited_locations, {0, 0})
+    {new_position, distance + amount, new_path}
   end
+
+  defp move({x, y}, :up, amount), do: {x + amount, y}
+  defp move({x, y}, :down, amount), do: {x - amount, y}
+  defp move({x, y}, :left, amount), do: {x, y - amount}
+  defp move({x, y}, :right, amount), do: {x, y + amount}
 
   def parse_instruction("U" <> n), do: {:up, String.to_integer(n)}
   def parse_instruction("D" <> n), do: {:down, String.to_integer(n)}
   def parse_instruction("L" <> n), do: {:left, String.to_integer(n)}
   def parse_instruction("R" <> n), do: {:right, String.to_integer(n)}
 
-  defp manhattan_distance({x1, y1}, {x2, y2}), do: abs(x1 - x2) + abs(y1 - y2)
+  defp manhattan_distance({x, y}), do: abs(x) + abs(y)
 end
