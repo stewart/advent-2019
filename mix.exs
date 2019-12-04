@@ -22,8 +22,6 @@ defmodule Advent.MixProject do
   defp deps do
     [
       {:decimal, "~> 1.8"},
-      {:httpoison, "~> 1.6"},
-      {:jason, "~> 1.1"},
       {:timex, "~> 3.6"}
     ]
   end
