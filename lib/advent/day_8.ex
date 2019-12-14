@@ -33,13 +33,14 @@ defmodule Advent.Day8 do
 
   def stack_image(layers) do
     stack_pixels = fn {front, back} -> with 2 <- front, do: back end
+
     Enum.reduce(layers, fn back_layer, front_layer ->
       Enum.zip(front_layer, back_layer) |> Enum.map(stack_pixels)
     end)
   end
 
   defp num_digits(layer, value) do
-    Enum.count(layer, & &1 == value)
+    Enum.count(layer, &(&1 == value))
   end
 
   defp make_printable(image) do

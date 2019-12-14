@@ -53,7 +53,7 @@ defmodule Advent.Day6 do
   # mutates map!
   def find_shortest_transfer!(orbital_map, orig, dest) do
     for [to, from] <- get_orbital_pairs(input()),
-      do: :digraph.add_edge(orbital_map, to, from)
+        do: :digraph.add_edge(orbital_map, to, from)
 
     case :digraph.get_short_path(orbital_map, orig, dest) do
       false -> raise "cannot find path from #{orig} to #{dest}"
